@@ -1,0 +1,16 @@
+.chat-area {
+	width: 60%;
+	height: 200px;
+	background-color: #C0C0C0;
+	border: 1px solid black;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: scroll;
+}
+
+.chat-form {
+	margin-top: 25px;
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
