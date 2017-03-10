@@ -42,6 +42,28 @@ $(document).ready(function() {
 		});
 	};
 
+	window.addEventListener('storage', handleStoreUpdate, false);
+
+	function handleStoreUpdate(e) {
+		var key = e.key;
+		switch(key) {
+			case "messages":
+				handleMsgUpdate();
+				console.log("msg called");
+				break;
+			case "users":
+				console.log("users called");
+				break;
+			default:
+				console.error("Storage key not recognized");
+		}
+	}
+
+	function handleMsgUpdate() {
+		$('.chat-list').empty();
+		displayAllStoredMsg();
+	}
+
 	displayAllStoredMsg();
 });
 
@@ -66,10 +88,6 @@ function storeUser() {
 function getAllUsers() {
 	return JSON.parse(localStorage.getItem("users"));
 }
-
-// function checkForUserStore() {
-// 	return localStorage.getItem("users") != null;
-// }
 
 function localStorageSupported() {
 	try {
@@ -99,5 +117,5 @@ function storeMsg(msg, userID) {
 }
 
 function getAllMessages() {
-	return JSON.parse(localStorage.getItem("messages"));
+	return JSON.parse(localStorage.getItem("messages")) || [];
 }
