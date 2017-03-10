@@ -1,19 +1,59 @@
 $(document).ready(function() {
+	var userID = storeUser();
 	$('.chat-submit').on("click", function(e) {
 		handleChatSub(e);
 	});
 
 	function handleChatSub(e) {
 		e.preventDefault();
-		alert("working");
+		var msg = getChatVal();
+		if(msg.length > 0) {
+			var storedMsg = storeMsg(msg, userID);
+			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
+		}
+		console.log(msg)
 	}
+
+	// var msgContent = {
+	// 	msg:        msg,
+	// 	UserID:     userID,
+	// 	timestamp:  timestamp
+	// }
+
+	function formatMsgForDisp(obj) {
+		console.log(obj.userID)
+		console.log(getAllUsers())
+		var msgStr = '<li class="chat-msg" id="msg-id-" ' 
+		+ obj.msgID 
+		+ '>' 
+		+ getAllUsers()[obj.userID].name
+		+ " - " 
+		+ obj.msg;
+		return msgStr;
+	}
+
+
+
+	function getChatVal() {
+		return $('.chat-text').val();
+	}
+
+	function displayMessage(msg, msgId) {
+		var length = $('.chat-list li').length;
+		if(msgId < length) {
+			$('.chat-list li:eq(' + msgId + ')').replaceWith(msg);
+		} else {
+			$('.chat-list').append(msg);
+		}
+	}
+	displayMessage();
+
 });
 
-var userId = storeUser();
 
 function storeUser() {
 	if(localStorageSupported) {
-		var users = JSON.parse(localStorage.getItem("users"));
+		var users = getAllUsers();
 		var length = users ? users.length : 0;
 		var userInfo = {
 			name:  "guest_" + length
@@ -28,9 +68,13 @@ function storeUser() {
 	}
 }
 
-function checkForUserStore() {
-	return localStorage.getItem("users") != null;
+function getAllUsers() {
+	return JSON.parse(localStorage.getItem("users"));
 }
+
+// function checkForUserStore() {
+// 	return localStorage.getItem("users") != null;
+// }
 
 function localStorageSupported() {
 	try {
@@ -45,13 +89,16 @@ function storeMsg(msg, userID) {
 	var timestamp = Date.now();
 	var msgContent = {
 		msg:        msg,
-		UserID:     userID,
-		timestamp:  timestamp
+		timestamp:  timestamp,
+		userID:     userID
 	}
 	if(msgs) {
-		msgs.push(userInfo);
-		localStorage.setItem("messages", JSON.stringify(messages));
+		msgContent.msgID = msgs.length;
+		msgs.push(msgContent);
+		localStorage.setItem("messages", JSON.stringify(msgs));
 	} else {
+		msgContent.msgID = 0;
 		localStorage.setItem("messages", JSON.stringify([msgContent]));
 	}
+	return msgContent;
 }
