@@ -11,43 +11,38 @@ $(document).ready(function() {
 			var storedMsg = storeMsg(msg, userID);
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 		}
-		console.log(msg)
 	}
 
-	// var msgContent = {
-	// 	msg:        msg,
-	// 	UserID:     userID,
-	// 	timestamp:  timestamp
-	// }
-
 	function formatMsgForDisp(obj) {
-		console.log(obj.userID)
-		console.log(getAllUsers())
-		var msgStr = '<li class="chat-msg" id="msg-id-" ' 
+		var msgStr = '<li class="chat-msg" id="msg-id-' 
 		+ obj.msgID 
-		+ '>' 
+		+ '">' 
 		+ getAllUsers()[obj.userID].name
 		+ " - " 
 		+ obj.msg;
 		return msgStr;
 	}
 
-
-
 	function getChatVal() {
 		return $('.chat-text').val();
 	}
 
-	function displayMessage(msg, msgId) {
+	function displayMessage(msg) {
 		var length = $('.chat-list li').length;
-		if(msgId < length) {
-			$('.chat-list li:eq(' + msgId + ')').replaceWith(msg);
+		if(msg.msgId < length) {
+			$('.chat-list li:eq(' + msg.msgId + ')').replaceWith(msg);
 		} else {
 			$('.chat-list').append(msg);
 		}
 	}
-	displayMessage();
 
+	function displayAllStoredMsg() {
+		getAllMessages().forEach(function(msg) {
+			displayMessage(formatMsgForDisp(msg));
+		});
+	};
+
+	displayAllStoredMsg();
 });
 
 
@@ -101,4 +96,8 @@ function storeMsg(msg, userID) {
 		localStorage.setItem("messages", JSON.stringify([msgContent]));
 	}
 	return msgContent;
+}
+
+function getAllMessages() {
+	return JSON.parse(localStorage.getItem("messages"));
 }
