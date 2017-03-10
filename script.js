@@ -9,9 +9,9 @@ $(document).ready(function() {
 	}
 });
 
-var userId;
+var userId = storeUser();
 
-function setupUser() {
+function storeUser() {
 	if(localStorageSupported) {
 		var users = JSON.parse(localStorage.getItem("users"));
 		var length = users ? users.length : 0;
@@ -22,12 +22,9 @@ function setupUser() {
 			users.push(userInfo);
 			localStorage.setItem("users", JSON.stringify(users));
 		} else {
-			// var userInfo = {
-			// 	id:    0,
-			// 	name:  null
-			// }
 			localStorage.setItem("users", JSON.stringify([userInfo]));
 		}
+		return length++;
 	}
 }
 
@@ -43,8 +40,18 @@ function localStorageSupported() {
 	}
 }
 
-function createUserId() {
-
+function storeMsg(msg, userID) {
+	var msgs = JSON.parse(localStorage.getItem("messages"));
+	var timestamp = Date.now();
+	var msgContent = {
+		msg:        msg,
+		UserID:     userID,
+		timestamp:  timestamp
+	}
+	if(msgs) {
+		msgs.push(userInfo);
+		localStorage.setItem("messages", JSON.stringify(messages));
+	} else {
+		localStorage.setItem("messages", JSON.stringify([msgContent]));
+	}
 }
-
-setupUser();
