@@ -12,7 +12,7 @@ $(document).ready(function() {
 
 	$('.chat-list').on("click", ".msg-text", function(e) {
 		if(getValueByAttr(this,'data-user-id') == userID) {
-			$(this).select();
+			selectFieldText(this);
 		}
 	});
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 	$('.users-list').on("click", ".user-text", function(e) {
 		if(getValueByAttr(this, 'data-user-id') == userID) {
-			$(this).select();
+			selectFieldText(this);
 		}
 	});
 
@@ -66,6 +66,9 @@ $(document).ready(function() {
 		return $(element).attr(attr);
 	}
 
+	function selectFieldText(element) {
+		$(element).select();
+	}
 	// Capture chat submission
 	function handleChatSubmit(e) {
 		e.preventDefault();
