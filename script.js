@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 	$('.chat-list').on("change", ".msg-text", function(e) {
 		var pos = getValueByAttr(this, 'data-msg-id');
-		var val = $(this).val();
+		var val = getElementVal(this);
 		editMsg(pos, val)
 	});
 
@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 	$('.users-list').on("change", ".user-text", function(e) {
 		var pos = getValueByAttr(this, 'data-user-id');
-		var val = $(this).val();
+		var val = getElementVal(this);
 		editUserName(pos, val)
 	});
 
@@ -72,15 +72,15 @@ $(document).ready(function() {
 	// Capture chat submission
 	function handleChatSubmit(e) {
 		e.preventDefault();
-		var msg = getChatVal();
+		var msg = getElementVal('.chat-text');
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 		}
 	}
 
-	function getChatVal() {
-		return $('.chat-text').val();
+	function getElementVal(ele) {
+		return $(ele).val();
 	}
 
 	// Message formatting and display
