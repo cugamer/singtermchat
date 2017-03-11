@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var userID = storeUser();
 	$('.chat-submit').on("click", function(e) {
-		handleChatSub(e);
+		handleChatSubmit(e);
 	});
 
 	$('.chat-list').on("click", ".delete-msg", function(e) {
@@ -9,7 +9,7 @@ $(document).ready(function() {
 		deleteMsg(msgID);
 	});
 
-	function handleChatSub(e) {
+	function handleChatSubmit(e) {
 		e.preventDefault();
 		var msg = getChatVal();
 		if(msg.length > 0) {
@@ -19,12 +19,13 @@ $(document).ready(function() {
 	}
 
 	function formatMsgForDisp(obj) {
-		var msgStr = '<li class="chat-msg" class="msg-id-' 
+		var deleteX = obj.userID === userID ? 
+			'<span class="delete-msg" data-msg-id="'+ obj.msgID+ '">X </span>' : " ";
+		var msgStr = '<li class="chat-msg" data-msg-id="' 
 		+ obj.msgID
 		+ '">'
-		+ '<span class="delete-msg" data-msg-id="'
-		+ obj.msgID
-		+ '">X </span><span>'
+		+ deleteX
+		+ '<span>'
 		+ getAllUsers()[obj.userID].name
 		+ " - " 
 		+ obj.msg
