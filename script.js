@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	var userID = storeUser();
+	// Event handlers
 	$('.chat-submit').on("click", function(e) {
 		handleChatSubmit(e);
 	});
@@ -22,7 +23,20 @@ $(document).ready(function() {
 		editMsg(pos, val)
 	});
 
+	window.addEventListener('storage', handleStoreageUpdate, false);
 
+	// Handle updates to storage
+	function handleStoreageUpdate(e) {
+		var key = e.key;
+		handleMsgUpdate();
+	}
+
+	function handleMsgUpdate() {
+		$('.chat-list').empty();
+		displayAllStoredMsg();
+	}
+
+	// Capture chat submission
 	function handleChatSubmit(e) {
 		e.preventDefault();
 		var msg = getChatVal();
@@ -32,6 +46,11 @@ $(document).ready(function() {
 		}
 	}
 
+	function getChatVal() {
+		return $('.chat-text').val();
+	}
+
+	// Message formatting and display
 	function formatMsgForDisp(obj) {
 		var deleteX;
 		var readOnly;
@@ -62,10 +81,6 @@ $(document).ready(function() {
 		return msgStr;
 	}
 
-	function getChatVal() {
-		return $('.chat-text').val();
-	}
-
 	function displayMessage(msg) {
 		if(msg !== null) {
 			var length = $('.chat-list li').length;
@@ -85,18 +100,8 @@ $(document).ready(function() {
 		});
 	};
 
-	window.addEventListener('storage', handleStoreageUpdate, false);
 
-	function handleStoreageUpdate(e) {
-		var key = e.key;
-		handleMsgUpdate();
-	}
-
-	function handleMsgUpdate() {
-		$('.chat-list').empty();
-		displayAllStoredMsg();
-	}
-
+	// Handle existing message deletes and edits
 	function deleteMsg(msgID) {
 		var ind = getAllMessages().findIndex(function(e) {
 			if(e != null && e.userID === userID) {
@@ -128,6 +133,16 @@ $(document).ready(function() {
 	displayAllStoredMsg();
 });
 
+// Verify client supports local storage
+function localStorageSupported() {
+	try {
+		return "localStorage" in window && window["localStorage"] !== null;
+	} catch (e) {
+		return false;
+	}
+}
+
+// Add, update and retrieve user information from storage
 function storeUser() {
 	if(localStorageSupported) {
 		var users = getAllUsers();
@@ -149,14 +164,7 @@ function getAllUsers() {
 	return JSON.parse(localStorage.getItem("users"));
 }
 
-function localStorageSupported() {
-	try {
-		return "localStorage" in window && window["localStorage"] !== null;
-	} catch (e) {
-		return false;
-	}
-}
-
+// Add, update and retrieve messages from local storage
 function storeMsg(msg, userID) {
 	var msgs = JSON.parse(localStorage.getItem("messages"));
 	var timestamp = Date.now();
@@ -173,18 +181,9 @@ function storeMsg(msg, userID) {
 		msgContent.msgID = 0;
 		localStorage.setItem("messages", JSON.stringify([msgContent]));
 	}
-	// createLastUpdated(msgContent, "add");
 	return msgContent;
 }
 
 function getAllMessages() {
 	return JSON.parse(localStorage.getItem("messages")) || [];
 }
-
-// function createLastUpdated(obj, action) {
-// 	localStorage.setItem("lastupdated", JSON.stringify({obj, act: action}));
-// }
-
-// function getLastUpdated(){
-// 	return JSON.parse(localStorage.getItem("lastupdated"));
-// }
