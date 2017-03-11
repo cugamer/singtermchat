@@ -6,30 +6,30 @@ $(document).ready(function() {
 	});
 
 	$('.chat-list').on("click", ".delete-msg", function(e) {
-		var msgID = $(this).attr('data-msg-id');
+		var msgID = getValueByAttr(this, 'data-msg-id');
 		deleteMsg(msgID);
 	});
 
 	$('.chat-list').on("click", ".msg-text", function(e) {
-		if($(this).attr("data-user-id") == userID) {
+		if(getValueByAttr(this,'data-user-id') == userID) {
 			$(this).select();
 		}
 	});
 
 	$('.chat-list').on("change", ".msg-text", function(e) {
-		var pos = $(this).attr('data-msg-id');
+		var pos = getValueByAttr(this, 'data-msg-id');
 		var val = $(this).val();
 		editMsg(pos, val)
 	});
 
 	$('.users-list').on("click", ".user-text", function(e) {
-		if($(this).attr("data-user-id") == userID) {
+		if(getValueByAttr(this, 'data-user-id') == userID) {
 			$(this).select();
 		}
 	});
 
 	$('.users-list').on("change", ".user-text", function(e) {
-		var pos = $(this).attr('data-user-id');
+		var pos = getValueByAttr(this, 'data-user-id');
 		var val = $(this).val();
 		editUserName(pos, val)
 	});
@@ -58,8 +58,12 @@ $(document).ready(function() {
 		displayAllActiveUsers();
 	}
 
-	function emptyList(listClass) {
+	function emptyList(listClass) { // Separate function to isolate dependency
 		$(listClass).empty();
+	}
+
+	function getValueByAttr(element, attr) {
+		return $(element).attr(attr);
 	}
 
 	// Capture chat submission
