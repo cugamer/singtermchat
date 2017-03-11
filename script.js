@@ -10,9 +10,10 @@ $(document).ready(function() {
 	});
 
 	$('.chat-list').on("click", ".msg-text", function(e) {
-		$(this).attr('contenteditable', true);
-		$(this).focus(function() {
-		});
+		if($(this).attr("data-user-id") == userID) {
+			$(this).attr('contenteditable', true);
+			$(this).select();
+		}
 		console.log($(this))
 	});
 
@@ -27,21 +28,29 @@ $(document).ready(function() {
 	}
 
 	function formatMsgForDisp(obj) {
-		var deleteX = obj.userID === userID ? 
-			'<span class="delete-msg" data-msg-id="'+ obj.msgID+ '">X </span>' : " ";
-		var readOnly = obj.userID !== userID ? 'readonly' : "";
+		var deleteX;
+		var readOnly;
+		if(obj.userID === userID) {
+			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID+ '">X </span>';
+			readOnly = "";
+		} else {
+			deleteX = "";
+			readOnly = "readonly";
+		}
 		var msgStr = '<li class="chat-msg" data-msg-id="'
 		+ obj.msgID
 		+ '">'
 		+ deleteX
 		+ '<input type="text" class="msg-text" data-msg-id="'
 		+ obj.msgID
+		+ '" '
+		+ 'data-user-id="'
+		+ obj.userID
 		+ '" value="'
 		+ getAllUsers()[obj.userID].name + ' - ' + obj.msg
 		+ '"'
 		+ readOnly
 		+ '>';
-		console.log(msgStr)
 		return msgStr;
 	}
 
