@@ -14,7 +14,16 @@ $(document).ready(function() {
 			$(this).attr('contenteditable', true);
 			$(this).select();
 		}
-		console.log($(this))
+	});
+
+	$('.chat-list').on("change", ".msg-text", function(e) {
+		console.log($(this).val());
+		console.log($(this));
+		var pos = $(this).attr('data-msg-id');
+		var val = $(this).val();
+		editMsg(pos, val)
+
+		// updateMsg(arrayPos, updateVal)
 	});
 
 
@@ -96,6 +105,17 @@ $(document).ready(function() {
 			}
 		});
 		updateMsg(ind, null);
+	}
+
+	function editMsg(msgID, newMsg) {
+		var ind = getAllMessages().findIndex(function(e) {
+			if(e != null && e.userID === userID) {
+				return e.msgID == msgID
+			}
+		});
+		var editedMsg = getAllMessages()[ind];
+		editedMsg.msg = newMsg;
+		updateMsg(ind, editedMsg);
 	}
 
 	function updateMsg(arrayPos, updateVal) {
