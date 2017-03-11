@@ -25,26 +25,26 @@ $(document).ready(function() {
 
 	window.addEventListener('storage', handleStoreageUpdate, false);
 
-	window.addEventListener("beforeunload", function (e) {
+	window.addEventListener("unload", function (e) {
 	  deleteUser();
-	  // console.log(userID)
-	  // var confirmationMessage = "\o/";
-
-	  // e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
-	  // return confirmationMessage;              // Gecko, WebKit, Chrome <34
 	  return null;
 	});
 
 	// Handle updates to storage
 	function handleStoreageUpdate(e) {
-		console.log("update")
 		var key = e.key;
 		handleMsgUpdate();
+		handleUsersUpdate();
 	}
 
 	function handleMsgUpdate() {
 		$('.chat-list').empty();
 		displayAllStoredMsg();
+	}
+
+	function handleUsersUpdate() {
+		$('.users-list').empty();
+		displayAllStoredUsers();
 	}
 
 	// Capture chat submission
@@ -66,29 +66,29 @@ $(document).ready(function() {
 		var deleteX;
 		var readOnly;
 		if(obj.userID === userID) {
-			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID+ '">X </span>';
+			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID + '">X </span>';
 			readOnly = "";
 		} else {
 			deleteX = "";
 			readOnly = "readonly";
 		}
 		var msgStr = '<li class="chat-msg" data-msg-id="'
-		+ obj.msgID
-		+ '">'
-		+ deleteX
-		+ '<span class="user-name">'
-		+ getAllUsers()[obj.userID].name
-		+ '</span> - '
-		+ '<input type="text" class="msg-text" data-msg-id="'
-		+ obj.msgID
-		+ '" '
-		+ 'data-user-id="'
-		+ obj.userID
-		+ '" value="'
-		+ obj.msg
-		+ '"'
-		+ readOnly
-		+ '>';
+			+ obj.msgID
+			+ '">'
+			+ deleteX
+			+ '<span class="user-name">'
+			+ getAllUsers()[obj.userID].name
+			+ '</span> - '
+			+ '<input type="text" class="msg-text" data-msg-id="'
+			+ obj.msgID
+			+ '" '
+			+ 'data-user-id="'
+			+ obj.userID
+			+ '" value="'
+			+ obj.msg
+			+ '"'
+			+ readOnly
+			+ '>';
 		return msgStr;
 	}
 
@@ -111,6 +111,39 @@ $(document).ready(function() {
 		});
 	};
 
+	// Users formatting and display
+	function formatUserForDisp(obj) {
+		var readOnly = obj.id === userID ? "" : "readonly";
+		var userStr = '<li class="user-name" data-user-id="'
+			+ obj.id
+			+ '"><input value="'
+			+ obj.name
+			+ '" data-user-id="'
+			+ obj.id
+			+ '" '
+			+ readOnly
+			+'></input></li>';
+		return userStr;
+	}
+
+	function displayUser(user) {
+		if(user !== null) {
+			var length = $('.users-list li').length;
+			if(user.id < length) {
+				$('.users-list li:eq(' + user.id + ')').replaceWith(user);
+			} else {
+				$('.users-list').append(user);
+			}
+		}
+	}
+
+	function displayAllStoredUsers() {
+		getAllUsers().forEach(function(user) {
+			if(user != null) {
+				displayUser(formatUserForDisp(user));				
+			}
+		});
+	};
 
 	// Handle existing message deletes and edits
 	function deleteMsg(msgID) {
@@ -141,13 +174,8 @@ $(document).ready(function() {
 		displayAllStoredMsg();
 	}
 
+	// Handle existing users deletes and edits
 	function deleteUser() {
-		// console.log(userID)
-		// var ind = getAllUsers().findIndex(function(e) {
-		// 	if(e != null && e.userID === userID) {
-		// 		return e.userID == userID
-		// 	}
-		// });
 		updateUser(userID, null);
 	}
 
@@ -158,6 +186,7 @@ $(document).ready(function() {
 	}
 
 	displayAllStoredMsg();
+	displayAllStoredUsers();
 });
 
 // Verify client supports local storage
@@ -175,7 +204,8 @@ function storeUser() {
 		var users = getAllUsers();
 		var length = users ? users.length : 0;
 		var userInfo = {
-			name:    "guest_" + length
+			name:    "guest_" + length,
+			id:      length
 		}
 		if(users) {
 			users.push(userInfo);
