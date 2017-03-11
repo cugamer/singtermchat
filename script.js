@@ -49,13 +49,17 @@ $(document).ready(function() {
 	}
 
 	function handleMsgUpdate() {
-		$('.chat-list').empty();
+		emptyList('.chat-list')
 		displayAllStoredMsg();
 	}
 
 	function handleUsersUpdate() {
-		$('.users-list').empty();
+		emptyList('.users-list')
 		displayAllActiveUsers();
+	}
+
+	function emptyList(listClass) {
+		$(listClass).empty();
 	}
 
 	// Capture chat submission
