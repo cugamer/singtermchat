@@ -5,7 +5,6 @@ $(document).ready(function() {
 	});
 
 	$('.chat-list').on("click", ".delete-msg", function(e) {
-		console.log($(this).attr('data-msg-id'));
 		var msgID = $(this).attr('data-msg-id');
 		deleteMsg(msgID);
 	});
@@ -56,9 +55,9 @@ $(document).ready(function() {
 		});
 	};
 
-	window.addEventListener('storage', handleStoreUpdate, false);
+	window.addEventListener('storage', handleStoreageUpdate, false);
 
-	function handleStoreUpdate(e) {
+	function handleStoreageUpdate(e) {
 		var key = e.key;
 		handleMsgUpdate();
 	}
@@ -70,7 +69,7 @@ $(document).ready(function() {
 
 	function deleteMsg(msgID) {
 		var ind = getAllMessages().findIndex(function(e) {
-			if(e != null) {
+			if(e != null && e.userID === userID) {
 				return e.msgID == msgID
 			}
 		});
