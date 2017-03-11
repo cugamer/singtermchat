@@ -17,13 +17,9 @@ $(document).ready(function() {
 	});
 
 	$('.chat-list').on("change", ".msg-text", function(e) {
-		console.log($(this).val());
-		console.log($(this));
 		var pos = $(this).attr('data-msg-id');
 		var val = $(this).val();
 		editMsg(pos, val)
-
-		// updateMsg(arrayPos, updateVal)
 	});
 
 
@@ -50,13 +46,16 @@ $(document).ready(function() {
 		+ obj.msgID
 		+ '">'
 		+ deleteX
+		+ '<span class="user-name">'
+		+ getAllUsers()[obj.userID].name
+		+ '</span> - '
 		+ '<input type="text" class="msg-text" data-msg-id="'
 		+ obj.msgID
 		+ '" '
 		+ 'data-user-id="'
 		+ obj.userID
 		+ '" value="'
-		+ getAllUsers()[obj.userID].name + ' - ' + obj.msg
+		+ obj.msg
 		+ '"'
 		+ readOnly
 		+ '>';
