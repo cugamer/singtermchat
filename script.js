@@ -37,7 +37,7 @@ $(document).ready(function() {
 	window.addEventListener('storage', handleStoreageUpdate, false);
 
 	window.addEventListener("unload", function (e) {
-		deleteUser();
+		disableUser();
 		return null;
 	});
 
@@ -55,7 +55,7 @@ $(document).ready(function() {
 
 	function handleUsersUpdate() {
 		$('.users-list').empty();
-		displayAllStoredUsers();
+		displayAllActiveUsers();
 	}
 
 	// Capture chat submission
@@ -148,9 +148,9 @@ $(document).ready(function() {
 		}
 	}
 
-	function displayAllStoredUsers() {
+	function displayAllActiveUsers() {
 		getAllUsers().forEach(function(user) {
-			if(user != null) {
+			if(user != null && user.active) {
 				displayUser(formatUserForDisp(user));				
 			}
 		});
@@ -186,8 +186,16 @@ $(document).ready(function() {
 	}
 
 	// Handle existing users deletes and edits
-	function deleteUser() {
-		updateUser(userID, null);
+	function disableUser() {
+		var storedUsers = getAllUsers();
+		var ind = storedUsers.findIndex(function(e) {
+			if(e != null && e.id == userID) {
+				return true;
+			}
+		});
+		var editedUser = storedUsers[ind];
+		editedUser.active = false;
+		updateUser(userID, editedUser);
 	}
 
 	function editUserName(userID, newName) {
@@ -210,7 +218,7 @@ $(document).ready(function() {
 	}
 
 	displayAllStoredMsg();
-	displayAllStoredUsers();
+	displayAllActiveUsers();
 });
 
 // Verify client supports local storage
@@ -229,7 +237,8 @@ function storeUser() {
 		var length = users ? users.length : 0;
 		var userInfo = {
 			name:    "guest_" + length,
-			id:      length
+			id:      length,
+			active:  true
 		}
 		if(users) {
 			users.push(userInfo);
