@@ -25,8 +25,19 @@ $(document).ready(function() {
 
 	window.addEventListener('storage', handleStoreageUpdate, false);
 
+	window.addEventListener("beforeunload", function (e) {
+	  deleteUser();
+	  // console.log(userID)
+	  // var confirmationMessage = "\o/";
+
+	  // e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+	  // return confirmationMessage;              // Gecko, WebKit, Chrome <34
+	  return null;
+	});
+
 	// Handle updates to storage
 	function handleStoreageUpdate(e) {
+		console.log("update")
 		var key = e.key;
 		handleMsgUpdate();
 	}
@@ -130,6 +141,22 @@ $(document).ready(function() {
 		displayAllStoredMsg();
 	}
 
+	function deleteUser() {
+		// console.log(userID)
+		// var ind = getAllUsers().findIndex(function(e) {
+		// 	if(e != null && e.userID === userID) {
+		// 		return e.userID == userID
+		// 	}
+		// });
+		updateUser(userID, null);
+	}
+
+	function updateUser(arrayPos, updateVal) {
+		allUsers = getAllUsers();
+		allUsers[arrayPos] = updateVal;
+		localStorage.setItem("users", JSON.stringify(allUsers));
+	}
+
 	displayAllStoredMsg();
 });
 
@@ -148,7 +175,7 @@ function storeUser() {
 		var users = getAllUsers();
 		var length = users ? users.length : 0;
 		var userInfo = {
-			name:  "guest_" + length
+			name:    "guest_" + length
 		}
 		if(users) {
 			users.push(userInfo);
