@@ -158,23 +158,24 @@ $(document).ready(function() {
 
 	// Handle existing message deletes and edits
 	function deleteMsg(msgID) {
-		var ind = getAllMessages().findIndex(function(e) {
-			if(e != null && e.userID === userID) {
-				return e.msgID == msgID
-			}
-		});
-		updateMsg(ind, null);
+		var index = getMsgIndexByID(msgID)
+		updateMsg(index, null);
 	}
 
 	function editMsg(msgID, newMsg) {
-		var ind = getAllMessages().findIndex(function(e) {
+		var index = getMsgIndexByID(msgID);
+		var editedMsg = getAllMessages()[index];
+		editedMsg.msg = newMsg;
+		updateMsg(index, editedMsg);
+	}
+
+	function getMsgIndexByID(id) {
+		var index = getAllMessages().findIndex(function(e) {
 			if(e != null && e.userID === userID) {
-				return e.msgID == msgID;
+				return e.msgID == id;
 			}
 		});
-		var editedMsg = getAllMessages()[ind];
-		editedMsg.msg = newMsg;
-		updateMsg(ind, editedMsg);
+		return index;
 	}
 
 	function updateMsg(arrayPos, updateVal) {
@@ -184,6 +185,7 @@ $(document).ready(function() {
 		$('.chat-list').empty();
 		displayAllStoredMsg();
 	}
+
 
 	// Handle existing users deletes and edits
 	function disableUser() {
