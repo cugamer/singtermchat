@@ -12,7 +12,6 @@ $(document).ready(function() {
 
 	$('.chat-list').on("click", ".msg-text", function(e) {
 		if($(this).attr("data-user-id") == userID) {
-			$(this).attr('contenteditable', true);
 			$(this).select();
 		}
 	});
@@ -23,11 +22,23 @@ $(document).ready(function() {
 		editMsg(pos, val)
 	});
 
+	$('.users-list').on("click", ".user-text", function(e) {
+		if($(this).attr("data-user-id") == userID) {
+			$(this).select();
+		}
+	});
+
+	$('.users-list').on("change", ".user-text", function(e) {
+		var pos = $(this).attr('data-user-id');
+		var val = $(this).val();
+		editUserName(pos, val)
+	});
+
 	window.addEventListener('storage', handleStoreageUpdate, false);
 
 	window.addEventListener("unload", function (e) {
-	  deleteUser();
-	  return null;
+		deleteUser();
+		return null;
 	});
 
 	// Handle updates to storage
@@ -116,7 +127,7 @@ $(document).ready(function() {
 		var readOnly = obj.id === userID ? "" : "readonly";
 		var userStr = '<li class="user-name" data-user-id="'
 			+ obj.id
-			+ '"><input value="'
+			+ '"><input class="user-text" value="'
 			+ obj.name
 			+ '" data-user-id="'
 			+ obj.id
@@ -158,7 +169,7 @@ $(document).ready(function() {
 	function editMsg(msgID, newMsg) {
 		var ind = getAllMessages().findIndex(function(e) {
 			if(e != null && e.userID === userID) {
-				return e.msgID == msgID
+				return e.msgID == msgID;
 			}
 		});
 		var editedMsg = getAllMessages()[ind];
@@ -179,10 +190,23 @@ $(document).ready(function() {
 		updateUser(userID, null);
 	}
 
+	function editUserName(userID, newName) {
+		var storedUsers = getAllUsers();
+		var ind = storedUsers.findIndex(function(e) {
+			if(e != null && e.id == userID) {
+				return true;
+			}
+		});
+		var editedUser = storedUsers[ind];
+		editedUser.name = newName;
+		updateUser(ind, editedUser);
+	}
+
 	function updateUser(arrayPos, updateVal) {
 		allUsers = getAllUsers();
 		allUsers[arrayPos] = updateVal;
 		localStorage.setItem("users", JSON.stringify(allUsers));
+		handleMsgUpdate();
 	}
 
 	displayAllStoredMsg();
