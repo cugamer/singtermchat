@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$('.chat-list').on("change", ".msg-text", function(e) {
 		var pos = getValueByAttr(this, 'data-msg-id');
 		var val = getElementVal(this);
-		editMsg(pos, val)
+		editMsg(pos, val);
 	});
 
 	$('.users-list').on("click", ".user-text", function(e) {
@@ -31,7 +31,7 @@ $(document).ready(function() {
 	$('.users-list').on("change", ".user-text", function(e) {
 		var pos = getValueByAttr(this, 'data-user-id');
 		var val = getElementVal(this);
-		editUserName(pos, val)
+		editUserName(pos, val);
 	});
 
 	window.addEventListener('storage', handleStoreageUpdate, false);
