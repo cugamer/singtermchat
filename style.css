@@ -14,3 +14,8 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.msg-text {
+	border: none;
+	background-color: #C0C0C0;
+}

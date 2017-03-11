@@ -9,6 +9,14 @@ $(document).ready(function() {
 		deleteMsg(msgID);
 	});
 
+	$('.chat-list').on("click", ".msg-text", function(e) {
+		$(this).attr('contenteditable', true);
+		$(this).focus(function() {
+		});
+		console.log($(this))
+	});
+
+
 	function handleChatSubmit(e) {
 		e.preventDefault();
 		var msg = getChatVal();
@@ -21,15 +29,19 @@ $(document).ready(function() {
 	function formatMsgForDisp(obj) {
 		var deleteX = obj.userID === userID ? 
 			'<span class="delete-msg" data-msg-id="'+ obj.msgID+ '">X </span>' : " ";
-		var msgStr = '<li class="chat-msg" data-msg-id="' 
+		var readOnly = obj.userID !== userID ? 'readonly' : "";
+		var msgStr = '<li class="chat-msg" data-msg-id="'
 		+ obj.msgID
 		+ '">'
 		+ deleteX
-		+ '<span>'
-		+ getAllUsers()[obj.userID].name
-		+ " - " 
-		+ obj.msg
-		+ '</span>';
+		+ '<input type="text" class="msg-text" data-msg-id="'
+		+ obj.msgID
+		+ '" value="'
+		+ getAllUsers()[obj.userID].name + ' - ' + obj.msg
+		+ '"'
+		+ readOnly
+		+ '>';
+		console.log(msgStr)
 		return msgStr;
 	}
 
@@ -86,7 +98,6 @@ $(document).ready(function() {
 	}
 
 	displayAllStoredMsg();
-
 });
 
 function storeUser() {
@@ -105,8 +116,6 @@ function storeUser() {
 		return length++;
 	}
 }
-
-
 
 function getAllUsers() {
 	return JSON.parse(localStorage.getItem("users"));
@@ -139,8 +148,6 @@ function storeMsg(msg, userID) {
 	// createLastUpdated(msgContent, "add");
 	return msgContent;
 }
-
-
 
 function getAllMessages() {
 	return JSON.parse(localStorage.getItem("messages")) || [];
