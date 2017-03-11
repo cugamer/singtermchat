@@ -4,6 +4,12 @@ $(document).ready(function() {
 		handleChatSub(e);
 	});
 
+	$('.chat-list').on("click", ".delete-msg", function(e) {
+		console.log($(this).attr('data-msg-id'));
+		var msgID = $(this).attr('data-msg-id');
+		deleteMsg(msgID);
+	});
+
 	function handleChatSub(e) {
 		e.preventDefault();
 		var msg = getChatVal();
@@ -14,12 +20,16 @@ $(document).ready(function() {
 	}
 
 	function formatMsgForDisp(obj) {
-		var msgStr = '<li class="chat-msg" id="msg-id-' 
-		+ obj.msgID 
-		+ '">' 
+		var msgStr = '<li class="chat-msg" class="msg-id-' 
+		+ obj.msgID
+		+ '">'
+		+ '<span class="delete-msg" data-msg-id="'
+		+ obj.msgID
+		+ '">X </span><span>'
 		+ getAllUsers()[obj.userID].name
 		+ " - " 
-		+ obj.msg;
+		+ obj.msg
+		+ '</span>';
 		return msgStr;
 	}
 
@@ -28,17 +38,21 @@ $(document).ready(function() {
 	}
 
 	function displayMessage(msg) {
-		var length = $('.chat-list li').length;
-		if(msg.msgId < length) {
-			$('.chat-list li:eq(' + msg.msgId + ')').replaceWith(msg);
-		} else {
-			$('.chat-list').append(msg);
+		if(msg !== null) {
+			var length = $('.chat-list li').length;
+			if(msg.msgId < length) {
+				$('.chat-list li:eq(' + msg.msgId + ')').replaceWith(msg);
+			} else {
+				$('.chat-list').append(msg);
+			}
 		}
 	}
 
 	function displayAllStoredMsg() {
 		getAllMessages().forEach(function(msg) {
-			displayMessage(formatMsgForDisp(msg));
+			if(msg != null) {
+				displayMessage(formatMsgForDisp(msg));				
+			}
 		});
 	};
 
@@ -46,17 +60,7 @@ $(document).ready(function() {
 
 	function handleStoreUpdate(e) {
 		var key = e.key;
-		switch(key) {
-			case "messages":
-				handleMsgUpdate();
-				console.log("msg called");
-				break;
-			case "users":
-				console.log("users called");
-				break;
-			default:
-				console.error("Storage key not recognized");
-		}
+		handleMsgUpdate();
 	}
 
 	function handleMsgUpdate() {
@@ -64,9 +68,26 @@ $(document).ready(function() {
 		displayAllStoredMsg();
 	}
 
-	displayAllStoredMsg();
-});
+	function deleteMsg(msgID) {
+		var ind = getAllMessages().findIndex(function(e) {
+			if(e != null) {
+				return e.msgID == msgID
+			}
+		});
+		updateMsg(ind, null);
+	}
 
+	function updateMsg(arrayPos, updateVal) {
+		allMessages = getAllMessages();
+		allMessages[arrayPos] = updateVal;
+		localStorage.setItem("messages", JSON.stringify(allMessages));
+		$('.chat-list').empty();
+		displayAllStoredMsg();
+	}
+
+	displayAllStoredMsg();
+
+});
 
 function storeUser() {
 	if(localStorageSupported) {
@@ -84,6 +105,8 @@ function storeUser() {
 		return length++;
 	}
 }
+
+
 
 function getAllUsers() {
 	return JSON.parse(localStorage.getItem("users"));
@@ -113,9 +136,20 @@ function storeMsg(msg, userID) {
 		msgContent.msgID = 0;
 		localStorage.setItem("messages", JSON.stringify([msgContent]));
 	}
+	// createLastUpdated(msgContent, "add");
 	return msgContent;
 }
+
+
 
 function getAllMessages() {
 	return JSON.parse(localStorage.getItem("messages")) || [];
 }
+
+// function createLastUpdated(obj, action) {
+// 	localStorage.setItem("lastupdated", JSON.stringify({obj, act: action}));
+// }
+
+// function getLastUpdated(){
+// 	return JSON.parse(localStorage.getItem("lastupdated"));
+// }
