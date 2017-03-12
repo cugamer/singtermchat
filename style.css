@@ -7,6 +7,10 @@ body {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }			
 
+h1 {
+	text-align: center;
+}
+
 .container {
 	margin-top: 30px;
 	width: 60%;
@@ -54,9 +58,9 @@ li.chat-msg {
 
 .chat-msg.own-msg,
 .chat-msg.own-msg .msg-text {
-	float: right;
+	margin-left: 10%;
 	background-color: green;
-	margin-right: 8%;
+	/*margin-right: 8%;*/
 }
 
 .chat-msg.others-msg,
@@ -65,7 +69,7 @@ li.chat-msg {
 }
 
 textarea.msg-text {
-	width: 90%;
+	width: 70%;
 	margin-left: 5%;
 	margin-right: 5%;
 	margin-bottom: 2%;
