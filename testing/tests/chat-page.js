@@ -16,16 +16,27 @@ module.exports = {
     client
       .setValue('.chat-text', 'Lorem ipsum')
       .click('.chat-submit')
-      .pause(1000)
+      .pause(100)
       .assert.elementPresent('.chat-list li')
       .assert.value('.chat-list:first-child textarea', 'Lorem ipsum');
 
-      client
-        .setValue('.chat-text', 'Ut lobortis')
-        .submitForm('form.chat-input')
-        .pause(1000)
-        .assert.elementPresent('.chat-list li:nth-child(2) textarea')
-        .assert.value('.chat-list li:nth-child(2) textarea', 'Ut lobortis');
+    client
+      .setValue('.chat-text', 'Ut lobortis')
+      .submitForm('form.chat-input')
+      .pause(100)
+      .assert.elementPresent('.chat-list li:nth-child(2) textarea')
+      .assert.value('.chat-list li:nth-child(2) textarea', 'Ut lobortis');
+
+    client
+      .expect.element('.chat-list:first-child textarea').to.not.have.attribute('readonly');
+
+    client
+      .clearValue('.chat-list:first-child textarea')
+      .setValue('.chat-list:first-child textarea', 'Donec placerat')
+      .submitForm('form.chat-input')
+      .pause(100)
+      .expect.element('.chat-list:first-child textarea').value.to.equal('Donec placerat');
+
 
     client.end();
   }
