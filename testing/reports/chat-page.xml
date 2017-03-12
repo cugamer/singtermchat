@@ -5,15 +5,15 @@
 
   <testsuite name="chat-page"
     errors="1" failures="0" hostname="" id="" package="chat-page" skipped="0"
-    tests="1" time="0.01600" timestamp="Sun, 12 Mar 2017 18:59:36 GMT">
+    tests="1" time="0.02500" timestamp="Sun, 12 Mar 2017 23:12:21 GMT">
   
-    <testcase name="Chat main page testing" classname="chat-page" time="0.01600" assertions="0">
+    <testcase name="Chat main page testing" classname="chat-page" time="0.02500" assertions="0">
     </testcase>
       <system-err>
           Error while running [Chat Page / Chat main page testing]:
 
-  TypeError: Cannot read property 'be' of undefined
-    at Object.Chat main page testing (C:\Users\Jonathon\desktop\chat-prog\testing\tests\chat-page.js:36:17)
+  TypeError: client.expect.getListItems is not a function
+    at Object.Chat main page testing (C:\Users\Jonathon\desktop\chat-prog\testing\tests\chat-page.js:116:15)
     at Module.call (C:\users\Jonathon\Desktop\nw-test\nightwatch\lib\runner\module.js:62:34)
     at C:\users\Jonathon\Desktop\nw-test\nightwatch\lib\runner\testcase.js:70:29
     at _fulfilled (C:\users\Jonathon\node_modules\q\q.js:834:54)

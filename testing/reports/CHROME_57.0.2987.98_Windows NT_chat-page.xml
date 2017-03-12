@@ -5,9 +5,43 @@
 
   <testsuite name="chat-page"
     errors="0" failures="0" hostname="" id="" package="chat-page" skipped="0"
-    tests="1" time="4.442" timestamp="Sun, 12 Mar 2017 19:04:55 GMT">
+    tests="1" time="7.144" timestamp="Sun, 12 Mar 2017 23:16:31 GMT">
   
-    <testcase name="Chat main page testing" classname="chat-page" time="4.442" assertions="12">
+    <testcase name="Chat main page testing" classname="chat-page" time="7.144" assertions="29">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 
     
 
