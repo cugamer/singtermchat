@@ -51,7 +51,7 @@ $(document).ready(function() {
 	function handleMsgUpdate() {
 		emptyList('.chat-list');
 		displayAllStoredMsg();
-		$('textarea').autogrow({onInitialize: true});
+		$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 		autoScrollChat();
 	}
 
@@ -78,7 +78,7 @@ $(document).ready(function() {
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
-			$('textarea').autogrow({onInitialize: true});
+			$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
 		}
 	}
@@ -91,20 +91,25 @@ $(document).ready(function() {
 	function formatMsgForDisp(obj) {
 		var deleteX;
 		var readOnly;
+		var usersMsg;
 		if(obj.userID === userID) {
 			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID + '">X </span>';
 			readOnly = "";
+			usersMsg = "own-msg";
 		} else {
 			deleteX = "";
 			readOnly = "readonly";
+			usersMsg = "others-msg";
 		}
-		var msgStr = '<li class="chat-msg" data-msg-id="'
+		var msgStr = '<li class="chat-msg '
+			+ usersMsg
+			+ '" data-msg-id="'
 			+ obj.msgID
 			+ '">'
 			+ deleteX
 			+ '<span class="user-name">'
 			+ getAllUsers()[obj.userID].name
-			+ '</span> - '
+			+ '</span> - <span>'
 			+ '<textarea class="msg-text" data-msg-id="'
 			+ obj.msgID
 			+ '" '
@@ -112,7 +117,7 @@ $(document).ready(function() {
 			+ obj.userID
 			+ '" '
 			+ readOnly
-			+ '>' + obj.msg + '</textarea>';
+			+ '>' + obj.msg + '</textarea></span>';
 		return msgStr;
 	}
 
@@ -197,6 +202,8 @@ $(document).ready(function() {
 		localStorage.setItem("messages", JSON.stringify(allMessages));
 		$('.chat-list').empty();
 		displayAllStoredMsg();
+		$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
+		autoScrollChat();
 	}
 
 	// Handle existing users deletes and edits
@@ -235,18 +242,13 @@ $(document).ready(function() {
 	displayAllActiveUsers();
 
 	// Resizing and styling
-	$('textarea').autogrow({onInitialize: true, animate: false});
+	$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 	function autoScrollChat() {
-		var objDiv = document.querySelector(".chat-area");
+		var objDiv = document.querySelector(".chat-list");
 		objDiv.scrollTop = objDiv.scrollHeight;
 	}
 
 	autoScrollChat();
-	// $("textarea").on(function(e) {
-	//     while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
-	//         $(this).height($(this).height()+1);
-	//     };
-	// });
 });
 
 // Verify client supports local storage
