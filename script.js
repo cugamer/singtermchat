@@ -5,6 +5,10 @@ $(document).ready(function() {
 		handleChatSubmit(e);
 	});
 
+	$('form.chat-input').on("submit", function(e) {
+		handleChatSubmit(e);
+	});
+
 	$('.chat-list').on("click", ".delete-msg", function(e) {
 		var msgID = getValueByAttr(this, 'data-msg-id');
 		deleteMsg(msgID);
@@ -77,6 +81,7 @@ $(document).ready(function() {
 		var msg = getElementVal('.chat-text');
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
+			clearChatField();
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
@@ -85,6 +90,10 @@ $(document).ready(function() {
 
 	function getElementVal(ele) {
 		return $(ele).val();
+	}
+
+	function clearChatField() {
+		$('.chat-text').val("");
 	}
 
 	// Message formatting and display

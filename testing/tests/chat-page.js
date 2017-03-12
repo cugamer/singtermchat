@@ -23,9 +23,9 @@ module.exports = {
       client
         .setValue('.chat-text', 'Ut lobortis')
         .submitForm('form.chat-input')
-        .pause(10000)
-        .assert.elementPresent('.chat-list:nth-child(2)')
-        .assert.value('.chat-list:nth-child(2) textarea', 'Ut lobortis');
+        .pause(1000)
+        .assert.elementPresent('.chat-list li:nth-child(2) textarea')
+        .assert.value('.chat-list li:nth-child(2) textarea', 'Ut lobortis');
 
     client.end();
   }
