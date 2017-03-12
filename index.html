@@ -3,27 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Single Terminal Chat</title>
+	<link rel="stylesheet" type="text/css" href="normalize.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="shortcut icon" href="">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
 </head>
 <body>
-	<div class="chat-area">
-		<ul class="chat-list">
-		</ul>
-	</div>
+	<div class="container">
+		<div class="online-users">
+			<ul class="users-list">
+			</ul>
+		</div>
 
-	<div class="chat-form">
-		<form class="chat-input">
-			<input type="text" class="chat-text">
-			<input type="submit" class="chat-submit" value="Message">
-		</form>
+		<div class="chat-area">
+			<ul class="chat-list">
+			</ul>
+		</div>
+
+		<div class="chat-form">
+			<form class="chat-input">
+				<input type="text" class="chat-text">
+				<input type="submit" class="chat-submit" value="Message">
+			</form>
+		</div>
 	</div>
-	<div class="online-users">
-		<ul class="users-list">
-		</ul>
-	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+	<script type="text/javascript" src="autogrow-master/autogrow.min.js"></script>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>

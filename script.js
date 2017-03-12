@@ -49,12 +49,13 @@ $(document).ready(function() {
 	}
 
 	function handleMsgUpdate() {
-		emptyList('.chat-list')
+		emptyList('.chat-list');
 		displayAllStoredMsg();
+		$('textarea').autogrow({onInitialize: true});
 	}
 
 	function handleUsersUpdate() {
-		emptyList('.users-list')
+		emptyList('.users-list');
 		displayAllActiveUsers();
 	}
 
@@ -76,6 +77,7 @@ $(document).ready(function() {
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
+			$('textarea').autogrow({onInitialize: true});
 		}
 	}
 
@@ -101,16 +103,14 @@ $(document).ready(function() {
 			+ '<span class="user-name">'
 			+ getAllUsers()[obj.userID].name
 			+ '</span> - '
-			+ '<input type="text" class="msg-text" data-msg-id="'
+			+ '<textarea class="msg-text" data-msg-id="'
 			+ obj.msgID
 			+ '" '
 			+ 'data-user-id="'
 			+ obj.userID
-			+ '" value="'
-			+ obj.msg
-			+ '"'
+			+ '" '
 			+ readOnly
-			+ '>';
+			+ '>' + obj.msg + '</textarea>';
 		return msgStr;
 	}
 
@@ -169,7 +169,7 @@ $(document).ready(function() {
 
 	// Handle existing message deletes and edits
 	function deleteMsg(msgID) {
-		var index = getMsgIndexByID(msgID)
+		var index = getMsgIndexByID(msgID);
 		updateMsg(index, null);
 	}
 
@@ -196,7 +196,6 @@ $(document).ready(function() {
 		$('.chat-list').empty();
 		displayAllStoredMsg();
 	}
-
 
 	// Handle existing users deletes and edits
 	function disableUser() {
@@ -232,6 +231,14 @@ $(document).ready(function() {
 
 	displayAllStoredMsg();
 	displayAllActiveUsers();
+
+	// Resizing and styling functions
+	$('textarea').autogrow({onInitialize: true, animate: false});
+	// $("textarea").on(function(e) {
+	//     while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+	//         $(this).height($(this).height()+1);
+	//     };
+	// });
 });
 
 // Verify client supports local storage
