@@ -52,6 +52,7 @@ $(document).ready(function() {
 		emptyList('.chat-list');
 		displayAllStoredMsg();
 		$('textarea').autogrow({onInitialize: true});
+		autoScrollChat();
 	}
 
 	function handleUsersUpdate() {
@@ -78,6 +79,7 @@ $(document).ready(function() {
 			var storedMsg = storeMsg(msg, userID);
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('textarea').autogrow({onInitialize: true});
+			autoScrollChat();
 		}
 	}
 
@@ -232,8 +234,14 @@ $(document).ready(function() {
 	displayAllStoredMsg();
 	displayAllActiveUsers();
 
-	// Resizing and styling functions
+	// Resizing and styling
 	$('textarea').autogrow({onInitialize: true, animate: false});
+	function autoScrollChat() {
+		var objDiv = document.querySelector(".chat-area");
+		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+
+	autoScrollChat();
 	// $("textarea").on(function(e) {
 	//     while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
 	//         $(this).height($(this).height()+1);
