@@ -67,6 +67,7 @@ module.exports = {
     client.expect.element('.chat-list:first-child textarea').to.not.have.attribute('readonly');
 
     client
+      .clearValue('.chat-text')
       .setValue('.chat-text', 'Aenean rutrum')
       .submitForm('form.chat-input')
       .assert.elementPresent('.chat-list li:nth-child(2)')

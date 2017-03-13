@@ -45,8 +45,6 @@ $(document).ready(function() {
 		return null;
 	});
 
-	$('.mic').on("click", handleMicButton);
-
 	// Handle updates to storage
 	function handleStoreageUpdate(e) {
 		var key = e.key;
@@ -83,11 +81,10 @@ $(document).ready(function() {
 		var msg = getElementVal('.chat-text');
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
-			// clearChatField();
+			clearChatField();
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
-			clearChatInput();
 			focusToChatInput();
 		}
 	}
@@ -97,7 +94,7 @@ $(document).ready(function() {
 	}
 
 	function clearChatField() {
-		$('.chat-text').val("");
+		$('.chat-text').empty();
 	}
 
 	// Message formatting and display
@@ -288,42 +285,48 @@ $(document).ready(function() {
 	function focusToChatInput() {
 		$('.chat-text').focus();
 	}
-	function clearChatInput() {
-		$('.chat-text').val("");
-	}
+
 
 	// Voice input
-	window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+	// Check browser because SpeechRecognition currently only properly supported on Chrome
+	if (document.createElement('input').webkitSpeech === undefined) {
+		window.SpeechRecognition = window.webkitSpeechRecognition;
+		var recognition = new SpeechRecognition();
+		recognition.interimResults = true;
+		// Add event handler
+		$('.mic').on("click", handleMicButton);
+		function handleMicButton(e) {
+			e.preventDefault();
+			if($(this).hasClass('recording')) {
+				stopListening();
+			} else {
+				startListening();
+				$(this).addClass('recording');
+				$(this).html('<i class="fa fa-microphone-slash" aria-hidden="true"></i>');
+			}
+		}
 
-	function handleMicButton() {
-		if($(this).hasClass('recording')) {
-			$(this).removeClass('recording');
-			$(this).html('<i class="fa fa-microphone" aria-hidden="true"></i>');
-		} else {
-			$(this).addClass('recording');
-			$(this).html('<i class="fa fa-microphone-slash" aria-hidden="true"></i>');
+		function startListening() {
+			recognition.addEventListener('result', function(e) {
+			    var transcript = Array.from(e.results)
+			      .map(result => result[0])
+			      .map(result => result.transcript)
+			      .join("");			    
+						console.log(transcript)
+			    $('.chat-text').html(transcript);
+			});
+			// Listen for user to stop speaking, end recording in that event
+			recognition.addEventListener('end', stopListening);
+		    recognition.start();
+		}
+
+		function stopListening() {
+			$('.mic').removeClass('recording');
+			$('.mic').html('<i class="fa fa-microphone" aria-hidden="true"></i>');
+			recognition.stop();
 		}
 	}
-
-	const recognition = new SpeechRecognition();
-	recognition.interimResults = true;
-	console.log(recognition)
-	recognition.addEventListener('result', function(e) {
-	    // .results property is array-like list.
-	    // console.log(e.results.SpeachRecognitionResult.SpeechRecognitionAlternative.transcript);
-	    const transcript = Array.from(e.results)
-	      .map(result => result[0])
-	      .map(result => result.transcript)
-	      .join("");
-	    console.log(transcript)
-	    $('.chat-text').html(transcript);
-	});
-
-	// recognition.addEventListener('end', recognition.start);
-
-  // Start the recognition object
-  // recognition.start();
-
+	
 	focusToChatInput();
 	autoScrollChat();
 });
