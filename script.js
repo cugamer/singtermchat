@@ -102,7 +102,7 @@ $(document).ready(function() {
 		var readOnly;
 		var usersMsg;
 		if(obj.userID === userID) {
-			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID + '">X </span>';
+			deleteX = '<span class="delete-msg" data-msg-id="'+ obj.msgID + '"><i class="fa fa-trash" aria-hidden="true"></i> </span>';
 			readOnly = "";
 			usersMsg = "own-msg";
 		} else {
