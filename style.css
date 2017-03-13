@@ -8,12 +8,13 @@ body {
 }			
 
 h1 {
+	width: 100%;
 	text-align: center;
 }
 
 .container {
 	margin-top: 30px;
-	width: 40%;
+	width: 760px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -92,11 +93,6 @@ textarea.msg-text {
     resize: none;
 }
 
-.online-users {
-	/*width: 25%;*/
-	float: right;
-}
-
 .user-text {
 	border: none;
 	background-color: #FFEFD5;
@@ -110,9 +106,6 @@ textarea.msg-text {
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.chat-input {
 }
 
 .chat-text {
@@ -149,4 +142,67 @@ textarea.msg-text {
 	background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
 	background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
 	text-decoration: none;
+}
+
+.online-users {
+	background-color: #000000;
+	float: right;
+	width: 250px;
+	border-radius: 3px;
+}
+
+.users-list {
+	padding-left: 0;
+}
+.users-list li input {
+	background-color: #808080;
+	color: #FFFFFF;
+	font-size: 20px;
+	width: 235px;
+	margin: 5px 5px 5px 5px;
+	border-radius: 3px;
+}
+
+@media (max-width: 760px) {
+	.container {
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.chat-area,
+	.chat-form {
+		float: none;
+		width: 100%;
+		margin-left: 5%
+		margin-right: 5%
+	}
+
+	.chat-container {
+		float: none;
+		width: 100%;
+	}
+
+	.chat-list {
+		width: 100%;
+		padding-left: 5px;
+	}
+
+	.online-users {
+		float: none;
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
+		margin-bottom: 20px;
+	}
+
+	.chat-msg.own-msg,
+	.chat-msg.own-msg .msg-text {
+		margin-right: 0;
+	}
+
+	.users-list li input {
+		width: 90%;
+		margin-left: 5%;
+	}
 }
