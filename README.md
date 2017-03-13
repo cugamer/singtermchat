@@ -12,6 +12,8 @@ Features
 
 Installation and Use
 --------------------
+The program is online and can be used at my website at the following address: http://www.jonathonnordquist.com/chat.html.  Alternativly, it can be run locally which requires it to be run off a server.
+
 1. Ensure node.js is available.
 2. Download all files and navigate to folder root.
 3. Run "node server.js"  This will launch a basic node server.
