@@ -293,6 +293,10 @@ $(document).ready(function() {
 		window.SpeechRecognition = window.webkitSpeechRecognition;
 		var recognition = new SpeechRecognition();
 		recognition.interimResults = true;
+
+		// Add the mic button if supported
+		$('.chat-input')
+			.append('<button class="mic chat-button"><i class="fa fa-microphone" aria-hidden="true"></i></button>')
 		// Add event handler
 		$('.mic').on("click", handleMicButton);
 		function handleMicButton(e) {
