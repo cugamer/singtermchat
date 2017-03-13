@@ -256,6 +256,21 @@ $(document).ready(function() {
 		objDiv.scrollTop = objDiv.scrollHeight;
 	}
 
+	$('.chat-area').on('keypress', 'textarea', function(e) {
+		if(e.keyCode === 13) {
+			var msgID = getValueByAttr(this, 'data-msg-id');
+			var newMsg = $(this).val();
+			editMsg(msgID, newMsg) 
+		}
+	});
+
+	$('body').on('keypress', 'textarea', function(e) {
+		if(e.keyCode === 13) {
+			$(this).submit();			
+		}
+	});
+
+
 	autoScrollChat();
 });
 
