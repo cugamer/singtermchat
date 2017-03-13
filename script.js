@@ -85,6 +85,7 @@ $(document).ready(function() {
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
+			focusToChatInput();
 		}
 	}
 
@@ -276,11 +277,17 @@ $(document).ready(function() {
 
 	$('body').on('keypress', 'textarea', function(e) {
 		if(e.keyCode === 13) {
-			$(this).submit();			
+			$(this).submit();
+			e.preventDefault();
 		}
 	});
 
+	function focusToChatInput() {
+		$('.chat-text').focus();
+		$('.chat-text').val("");
+	}
 
+	focusToChatInput();
 	autoScrollChat();
 });
 
