@@ -55,7 +55,7 @@ $(document).ready(function() {
 	function handleMsgUpdate() {
 		emptyList('.chat-list');
 		displayAllStoredMsg();
-		$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
+		$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 		autoScrollChat();
 	}
 
@@ -83,7 +83,7 @@ $(document).ready(function() {
 			var storedMsg = storeMsg(msg, userID);
 			clearChatField();
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
-			$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
+			$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
 		}
 	}
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		localStorage.setItem("messages", JSON.stringify(allMessages));
 		$('.chat-list').empty();
 		displayAllStoredMsg();
-		$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
+		$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 		autoScrollChat();
 	}
 
@@ -260,7 +260,7 @@ $(document).ready(function() {
 	displayAllActiveUsers();
 
 	// Resizing and styling
-	$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
+	$('.msg-text').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 	function autoScrollChat() {
 		var objDiv = document.querySelector(".chat-list");
 		objDiv.scrollTop = objDiv.scrollHeight;

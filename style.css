@@ -110,6 +110,7 @@ textarea.msg-text {
 .chat-text {
 	display: block;
 	width: 70%;
+	height: 54px;
 	margin-left: 10%;
 	margin-right: 20%;
 	margin-bottom: 15px;
