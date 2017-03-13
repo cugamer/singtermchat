@@ -81,7 +81,7 @@ $(document).ready(function() {
 		var msg = getElementVal('.chat-text');
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
-			// clearChatField();
+			clearChatField();
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
@@ -150,8 +150,18 @@ $(document).ready(function() {
 
 	// Users formatting and display
 	function formatUserForDisp(obj) {
-		var readOnly = obj.id === userID ? "" : "readonly";
-		var userStr = '<li class="user-name" data-user-id="'
+		var readOnly;
+		var userSelf;
+		if(obj.id === userID) {
+			readOnly = "";
+			userSelf = "user-self"
+		} else {
+			readOnly = "readonly";
+			userSelf = "";
+		}
+		var userStr = '<li class="user-name '
+			+ userSelf
+			+ '" data-user-id="'
 			+ obj.id
 			+ '"><input class="user-text" value="'
 			+ obj.name
