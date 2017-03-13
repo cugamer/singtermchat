@@ -287,6 +287,21 @@ $(document).ready(function() {
 		$('.chat-text').val("");
 	}
 
+	// Voice input
+	$('.mic').on("click", handleMicButton);
+
+	function handleMicButton() {
+		console.log($(this));
+		if($(this).hasClass('recording')) {
+			$(this).removeClass('recording');
+			$(this).html('<i class="fa fa-microphone" aria-hidden="true"></i>');
+		} else {
+			$(this).addClass('recording');
+			$(this).html('<i class="fa fa-microphone-slash" aria-hidden="true"></i>');
+		}
+	}
+
+
 	focusToChatInput();
 	autoScrollChat();
 });
