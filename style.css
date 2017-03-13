@@ -13,13 +13,13 @@ h1 {
 
 .container {
 	margin-top: 30px;
-	width: 60%;
+	width: 40%;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .chat-area {
-	width: 70%;
+	width: 500px;
 	float: left;
 	height: 400px;
 	background-color: #FFEFD5;
@@ -44,34 +44,46 @@ h1 {
 
 li {
 	list-style: none;
-	color: #2F4F4F;
 }
 
-li.chat-msg {
-	font-size: 1.2em;
+.chat-msg,
+.msg-text {
+	float: left;
+	clear: right;
+	font-size: 20px;
 	width: 75%;
 	border: 1px solid black;
-	border-radius: 3px;
+	border-radius: 7px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	background-color: #0066ff;
+}
+
+.chat-meta {
+	display: block;
+	margin-left: 10px;	
+}
+
+.user-name {
+	font-size: 24px;
+	margin-left: 10px;	
+}
+
+.delete-msg {
+	cursor: default;
 }
 
 .chat-msg.own-msg,
 .chat-msg.own-msg .msg-text {
-	margin-left: 10%;
-	background-color: green;
-	/*margin-right: 8%;*/
-}
-
-.chat-msg.others-msg,
-.chat-msg.others-msg .msg-text {
-	background-color: blue;
+	margin-right: 58px;
+	float: right;
+	clear: left;
+	background-color: #00ff33;
 }
 
 textarea.msg-text {
-	width: 70%;
+	width: 80%;
 	margin-left: 5%;
-	margin-right: 5%;
 	margin-bottom: 2%;
 }
 

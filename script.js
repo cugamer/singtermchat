@@ -81,7 +81,7 @@ $(document).ready(function() {
 		var msg = getElementVal('.chat-text');
 		if(msg.length > 0) {
 			var storedMsg = storeMsg(msg, userID);
-			clearChatField();
+			// clearChatField();
 			displayMessage(formatMsgForDisp(storedMsg), storedMsg.msgID);
 			$('textarea').autogrow({onInitialize: true, animate: false, fixMinHeight: false});
 			autoScrollChat();
@@ -114,11 +114,10 @@ $(document).ready(function() {
 			+ usersMsg
 			+ '" data-msg-id="'
 			+ obj.msgID
-			+ '">'
+			+ '"><span class="chat-meta">'
 			+ deleteX
-			+ '<span class="user-name">'
+			+ '<span class="user-name"></span>'
 			+ getAllUsers()[obj.userID].name
-			+ '</span> - <span>'
 			+ '<textarea class="msg-text" data-msg-id="'
 			+ obj.msgID
 			+ '" '
